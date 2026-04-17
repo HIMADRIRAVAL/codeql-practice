@@ -1,13 +1,17 @@
+from flask import Flask, request
 import sqlite3
-import subprocess
 
-user = input("Enter username: ")
+app = Flask(__name__)
 
-conn = sqlite3.connect("users.db")
-cursor = conn.cursor()
+@app.route("/search")
+def search():
+    name = request.args.get("name")
+    conn = sqlite3.connect("test.db")
+    cur = conn.cursor()
 
-query = "SELECT * FROM users WHERE name = '" + user + "'"
-cursor.execute(query)
+    query = "SELECT * FROM users WHERE name = '" + name + "'"
+    cur.execute(query)
 
-cmd = input("Enter command: ")
-subprocess.call(cmd, shell=True)
+    return "done"
+
+app.run()
